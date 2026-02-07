@@ -5,21 +5,18 @@ import { fetchNotes } from "@/lib/api";
 import NoteList from "@/components/NoteList/NoteList";
 import Pagination from "@/components/Pagination/Pagination";
 import SearchBox from "@/components/SearchBox/SearchBox";
-import Modal from "@/components/Modal/Modal";
-import NoteForm from "@/components/NoteForm/NoteForm";
+import Link from "next/link";
 import css from "./NotesPage.module.css";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-interface NotesClientProps{
+interface NotesClientProps {
   tag: string | undefined;
 }
 
-function NotesClient({tag}:NotesClientProps) {
-
+function NotesClient({ tag }: NotesClientProps) {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const tagType = tag === "all" ? undefined : tag;
 
@@ -36,9 +33,6 @@ function NotesClient({tag}:NotesClientProps) {
 
   const totalPages = data ? data.totalPages : 1;
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
@@ -50,18 +44,13 @@ function NotesClient({tag}:NotesClientProps) {
             onPageChange={(selectedPage) => setPage(selectedPage)}
           />
         )}
-        <button className={css.button} onClick={openModal}>
+        <Link className={css.button} href="/notes/action/create">
           Create note +
-        </button>
+        </Link>
       </header>
       {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error fetching notes.</p>}
-      {isModalOpen && (
-        <Modal onClose={closeModal}>
-          <NoteForm onClose={closeModal} />
-        </Modal>
-      )}
     </div>
   );
 }
