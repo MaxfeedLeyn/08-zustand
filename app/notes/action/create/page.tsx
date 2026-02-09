@@ -1,7 +1,5 @@
-import css from "./CreateNote.module.css";
-import NoteForm from "@/components/NoteForm/NoteForm";
+import CreateNoteClient from './CreateNote.client'
 import type { Metadata } from "next";
-import { redirect } from "next/dist/server/api-utils";
 
 export const metadata: Metadata = {
   title: "NoteHub: Create New",
@@ -23,12 +21,7 @@ export const metadata: Metadata = {
 
 function CreateNote() {
   return (
-    <main className={css.main}>
-      <div className={css.container}>
-        <h1 className={css.title}>Create note</h1>
-        <NoteForm onClose={() => redirect('/')} />
-      </div>
-    </main>
+    <CreateNoteClient />
   );
 }
 
